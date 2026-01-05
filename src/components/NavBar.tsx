@@ -1,427 +1,219 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, type JSX } from "react";
-import {
-  motion,
-  AnimatePresence,
-  type Variants,
-  type Transition,
-} from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Button from "./ui/Button";
 
-// Type definitions
-interface NavSection {
-  title: string;
-  items: string[];
-  nested?: {
-    title: string;
-    items: string[];
-  };
-}
-
-interface StructuredNavItem {
-  structured: true;
-  sections: NavSection[];
-}
-
-interface SimpleNavItem {
-  items: string[];
-  columns: 2 | 3;
-}
-
-type NavKey = keyof typeof navItemsConfig;
-
-// Animation variants with proper typing
-const dropdownVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: -8,
-    transition: { duration: 0.15 } as Transition,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.2,
-      ease: [0.16, 1, 0.3, 1],
-    } as Transition,
-  },
+const navItems: Record<string, string[]> = {
+  "Why Clients Hire US": [
+    "total experience api",
+    "platform",
+    "tpass",
+    "hems modules",
+    "terraone",
+    "e-mobility",
+    "digital twin",
+    "virtual gas plan",
+    "onexperience",
+  ],
+  Platform: [
+    "total experience api",
+    "platform",
+    "tpass",
+    "hems modules",
+    "terraone",
+    "e-mobility",
+    "digital twin",
+    "virtual gas plan",
+    "onexperience",
+  ],
+  "venture design lab": [
+    "overview",
+    "case studies",
+    "collaborations",
+    "frameworks",
+    "innovation approach",
+    "contact",
+  ],
+  designlab: [
+    "design systems",
+    "prototyping",
+    "user research",
+    "workshops",
+    "sprint methods",
+  ],
+  resources: [
+    "blog",
+    "market trend",
+    "webinar",
+    "third party articles",
+    "press release",
+    "our thinking",
+    "vision",
+    "goal",
+    "value",
+    "impact",
+    "career",
+  ],
+  "why us": [
+    "use cases & sectors",
+    "retail",
+    "esg as a service",
+    "finance as a service",
+    "government / ngo",
+    "energy",
+    "technology",
+  ],
 };
 
-const itemVariants: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: (i: number) => ({
-    opacity: 1,
-    transition: {
-      delay: i * 0.03,
-      duration: 0.15,
-    } as Transition,
-  }),
-};
-
-const mobileDropdownVariants: Variants = {
-  hidden: {
-    height: 0,
-    opacity: 0,
-    transition: { duration: 0.2 } as Transition,
-  },
-  visible: {
-    height: "auto",
-    opacity: 1,
-    transition: {
-      duration: 0.25,
-      ease: [0.16, 1, 0.3, 1],
-    } as Transition,
-  },
-};
-
-const mobileMenuVariants: Variants = {
-  hidden: {
-    height: 0,
-    opacity: 0,
-  },
-  visible: {
-    height: "auto",
-    opacity: 1,
-  },
-  exit: {
-    height: 0,
-    opacity: 0,
-  },
-};
-
-// Navigation configuration
-const navItemsConfig = {
-  "WHY CLIENTS HIRE US": {
-    items: [
-      "Use Cases & Sectors",
-      "Retail",
-      "ESG as a Service",
-      "Finance as a Service",
-      "Government / NGO",
-      "Energy",
-      "Technology",
-      "Venture Design Lab",
-    ],
-    columns: 3,
-  } as SimpleNavItem,
-  "EXPERIENCE AS A PLATFORM": {
-    items: [
-      "Total Experience API",
-      "Platform",
-      "TPASS",
-      "HEMS Modules",
-      "TerraOne",
-      "e-Mobility",
-      "Digital Twin",
-      "Virtual Gas Plan",
-      "OneXperience",
-    ],
-    columns: 3,
-  } as SimpleNavItem,
-  RESOURCES: {
-    structured: true,
-    sections: [
-      {
-        items: [
-          "Blog",
-          "Market Trend",
-          "Webinar",
-          "Third Party Articles",
-          "Press Release",
-        ],
-      },
-      {
-        title: "Why Clients Hire Us",
-        items: [
-          "ESG + CSR + SGS",
-          "Efficiency to Zero",
-          "(Re)finance the Future",
-        ],
-        columns: 1,
-      },
-      {
-        title: "",
-        items: [
-          "Our Thinking",
-          "Vision",
-          "Goal",
-          "Value",
-          "Impact",
-          "Career",
-          "Mission",
-          "Philosophy",
-        ],
-      },
-    ],
-  } as StructuredNavItem,
-  "VENTURE DESIGN LAB": {
-    items: [
-      "Overview",
-      "Case Studies",
-      "Collaborations",
-      "Frameworks",
-      "Innovation Approach",
-      "Contact",
-    ],
-    columns: 2,
-  } as SimpleNavItem,
-} as const;
-
-const InfinityBleuNavbar: React.FC = () => {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<
-    string | null
-  >(null);
-
-  const renderDropdown = (key: string): JSX.Element => {
-    const item = navItemsConfig[key as NavKey];
-
-    // Resources dropdown with structured sections
-    if ("structured" in item && item.structured) {
-      return (
-        <div className="grid grid-cols-3 gap-8 p-8">
-          {item.sections.map((section: NavSection, sectionIdx: number) => (
-            <div key={section.title}>
-              <h3 className="text-[#0B1223] text-xs font-semibold uppercase tracking-wider mb-4 opacity-50">
-                {section.title}
-              </h3>
-              <div className="space-y-1">
-                {section.items.map((subItem: string, idx: number) => (
-                  <motion.a
-                    key={subItem}
-                    href="#"
-                    custom={sectionIdx * 3 + idx}
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="block px-3 py-2 text-[#0B1223] hover:text-[#245CFF] font-medium text-sm border border-transparent hover:border-[#245CFF] rounded transition-all duration-200"
-                  >
-                    {subItem}
-                  </motion.a>
-                ))}
-                {section.nested && (
-                  <div className="mt-4 pl-3 border-l-2 border-[#E7ECF6]">
-                    {section.nested.items.map(
-                      (nestedItem: string, idx: number) => (
-                        <motion.a
-                          key={nestedItem}
-                          href="#"
-                          custom={sectionIdx * 3 + section.items.length + idx}
-                          variants={itemVariants}
-                          initial="hidden"
-                          animate="visible"
-                          className="block px-3 py-2 text-[#0B1223] hover:text-[#245CFF] font-medium text-sm border border-transparent hover:border-[#245CFF] rounded transition-all duration-200"
-                        >
-                          {nestedItem}
-                        </motion.a>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    // Simple grid dropdowns for other items
-    const columns = "columns" in item ? item.columns : 3;
-    const gridClass = columns === 2 ? "grid-cols-2" : "grid-cols-3";
-
-    return (
-      <div className={`grid ${gridClass} gap-8 p-8`}>
-        {("items" in item ? item.items : []).map(
-          (subItem: string, idx: number) => (
-            <motion.a
-              key={subItem}
-              href="#"
-              custom={idx}
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              className="block px-3 py-2 text-[#0B1223] hover:text-[#245CFF] font-medium text-sm border border-transparent hover:border-[#245CFF] rounded transition-all duration-200"
-            >
-              {subItem}
-            </motion.a>
-          )
-        )}
-      </div>
-    );
-  };
+export default function Navigation() {
+  const [active, setActive] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileActive, setMobileActive] = useState<string | null>(null);
 
   return (
-    <>
-      {/* Desktop & Tablet Navbar */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-[#E7ECF6]">
-        <div className="max-w-7xl mx-auto px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a className="flex-shrink-0" href="/">
-              <img
-                src="/logo.jpg"
-                alt="Infinity Bleu Logo"
-                className="w-30 h-14"
-              />
-            </a>
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <a href="/" className="flex-shrink-0">
+            <img src="/logo.jpg" alt="Infinity Bleu" className="w-28 h-12" />
+          </a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {Object.keys(navItemsConfig).map((item: string) => (
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-6">
+            {Object.entries(navItems).map(([label, items]) => (
+              <div
+                key={label}
+                className="relative"
+                onMouseEnter={() => setActive(label)}
+                onMouseLeave={() => setActive(null)}
+              >
+                <button className="text-gray-900 hover:text-blue-600 text-sm font-medium flex items-center gap-1 transition-colors py-2">
+                  {label}
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                <AnimatePresence>
+                  {active === label && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute left-1/2 -translate-x-1/2 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64"
+                    >
+                      <div className="space-y-1">
+                        {items.map((item, i) => (
+                          <motion.a
+                            key={item}
+                            href="#"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: i * 0.02 }}
+                            className="block px-3 py-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded transition-colors"
+                          >
+                            {item}
+                          </motion.a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+
+          <Button className="text-neutral-800 px-4! py-2! text-sm">Let's Talk</Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2"
+          >
+            <div className="w-5 h-4 flex flex-col justify-between">
+              <span
+                className={`block w-full h-0.5 bg-gray-900 transition-transform ${
+                  mobileOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
+              />
+              <span
+                className={`block w-full h-0.5 bg-gray-900 transition-opacity ${
+                  mobileOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`block w-full h-0.5 bg-gray-900 transition-transform ${
+                  mobileOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden overflow-hidden bg-white border-t border-gray-200"
+          >
+            <div className="px-6 py-4 space-y-2">
+              {Object.entries(navItems).map(([label, items]) => (
                 <div
-                  key={item}
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown(item)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  key={label}
+                  className="border-b border-gray-100 pb-2 last:border-0"
                 >
-                  <button className="text-[#0B1223] hover:text-[#245CFF] font-medium text-sm tracking-tight flex items-center gap-1 transition-colors duration-200">
-                    {item}
-                    <ChevronDown className="w-3.5 h-3.5" />
+                  <button
+                    onClick={() =>
+                      setMobileActive(mobileActive === label ? null : label)
+                    }
+                    className="w-full flex items-center justify-between py-2 text-sm font-medium text-gray-900"
+                  >
+                    {label}
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform ${
+                        mobileActive === label ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
 
                   <AnimatePresence>
-                    {activeDropdown === item && (
+                    {mobileActive === label && (
                       <motion.div
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="absolute left-1/2 -translate-x-1/2 mt-2 bg-white border border-[#E7ECF6] rounded shadow-lg overflow-hidden"
-                        style={{
-                          width:
-                            "columns" in navItemsConfig[item as NavKey] &&
-                            (navItemsConfig[item as NavKey] as any).columns ===
-                              2
-                              ? "480px"
-                              : "680px",
-                        }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
                       >
-                        {renderDropdown(item)}
+                        <div className="pl-3 pt-1 pb-2 space-y-1">
+                          {items.map((item) => (
+                            <a
+                              key={item}
+                              href="#"
+                              className="block py-2 px-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded transition-colors"
+                            >
+                              {item}
+                            </a>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               ))}
 
-              <Button className="text-black">LET'S TALK</Button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="flex flex-col gap-1.5 w-6 h-6 justify-center"
-                aria-label="Toggle mobile menu"
-              >
-                <span
-                  className={`block w-6 h-0.5 bg-[#0B1223] transition-all duration-300 ${
-                    mobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                  }`}
-                ></span>
-                <span
-                  className={`block w-6 h-0.5 bg-[#0B1223] transition-all duration-300 ${
-                    mobileMenuOpen ? "opacity-0" : ""
-                  }`}
-                ></span>
-                <span
-                  className={`block w-6 h-0.5 bg-[#0B1223] transition-all duration-300 ${
-                    mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                  }`}
-                ></span>
+              <button className="w-full mt-3 px-4 py-2 text-sm font-medium text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors">
+                let's talk
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              variants={mobileMenuVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={
-                { duration: 0.25, ease: [0.16, 1, 0.3, 1] } as Transition
-              }
-              className="lg:hidden overflow-hidden bg-white border-t border-[#E7ECF6]"
-            >
-              <div className="px-6 py-4 space-y-2">
-                {Object.keys(navItemsConfig).map((item: string) => {
-                  const navItem = navItemsConfig[item as NavKey];
-                  const itemsList: string[] =
-                    "structured" in navItem && navItem.structured
-                      ? navItem.sections.flatMap((s: NavSection) => [
-                          ...s.items,
-                          ...(s.nested?.items || []),
-                        ])
-                      : (navItem as SimpleNavItem).items;
-
-                  return (
-                    <div
-                      key={item}
-                      className="border-b border-[#E7ECF6] last:border-0 pb-2"
-                    >
-                      <button
-                        onClick={() =>
-                          setMobileActiveDropdown(
-                            mobileActiveDropdown === item ? null : item
-                          )
-                        }
-                        className="w-full flex items-center justify-between py-3 text-[#0B1223] font-semibold text-sm"
-                      >
-                        {item}
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform duration-200 ${
-                            mobileActiveDropdown === item ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      <AnimatePresence>
-                        {mobileActiveDropdown === item && (
-                          <motion.div
-                            variants={mobileDropdownVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="hidden"
-                            className="overflow-hidden"
-                          >
-                            <div className="pl-4 pt-2 pb-3 space-y-1">
-                              {itemsList.map((subItem: string, idx: number) => (
-                                <motion.a
-                                  key={subItem}
-                                  href="#"
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  transition={
-                                    { delay: idx * 0.03 } as Transition
-                                  }
-                                  className="block py-2 px-3 text-[#0B1223] hover:text-[#245CFF] font-medium text-sm border border-transparent hover:border-[#245CFF] rounded transition-all duration-200"
-                                >
-                                  {subItem}
-                                </motion.a>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
-
-                <Button className="text-black">LET'S TALK</Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-    </>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
-};
-
-export default InfinityBleuNavbar;
+}
