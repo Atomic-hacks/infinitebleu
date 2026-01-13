@@ -24,7 +24,7 @@ export default function IntroSection() {
               intentional, every interaction meaningful.
             </p>
             <div className="mt-8">
-              <Button fillClassName="bg-[#245CFF]">Learn More</Button>
+              <Button>Learn More</Button>
             </div>
           </motion.div>
 

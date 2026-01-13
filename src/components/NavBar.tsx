@@ -1,219 +1,401 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, type JSX } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./ui/Button";
 
-const navItems: Record<string, string[]> = {
-  "Why Clients Hire US": [
-    "total experience api",
-    "platform",
-    "tpass",
-    "hems modules",
-    "terraone",
-    "e-mobility",
-    "digital twin",
-    "virtual gas plan",
-    "onexperience",
-  ],
-  Platform: [
-    "total experience api",
-    "platform",
-    "tpass",
-    "hems modules",
-    "terraone",
-    "e-mobility",
-    "digital twin",
-    "virtual gas plan",
-    "onexperience",
-  ],
-  "venture design lab": [
-    "overview",
-    "case studies",
-    "collaborations",
-    "frameworks",
-    "innovation approach",
-    "contact",
-  ],
-  designlab: [
-    "design systems",
-    "prototyping",
-    "user research",
-    "workshops",
-    "sprint methods",
-  ],
-  resources: [
-    "blog",
-    "market trend",
-    "webinar",
-    "third party articles",
-    "press release",
-    "our thinking",
-    "vision",
-    "goal",
-    "value",
-    "impact",
-    "career",
-  ],
-  "why us": [
-    "use cases & sectors",
-    "retail",
-    "esg as a service",
-    "finance as a service",
-    "government / ngo",
-    "energy",
-    "technology",
-  ],
+interface MenuItem {
+  name: string;
+  description?: string;
+}
+
+interface MenuSection {
+  title: string;
+  items?: MenuItem[];
+}
+
+interface MenuData {
+  sections: MenuSection[];
+}
+
+const menuData: Record<string, MenuData> = {
+  "Why Hire Us": {
+    sections: [
+      {
+        title: "USE CASES",
+        items: [
+          { name: "Sustainable Buildings" },
+          { name: "Healthy Buildings" },
+          { name: "Digital buildings" },
+        ],
+      },
+      {
+        title: "SECTORS",
+        items: [
+          { name: "Retails" },
+          { name: "Finance as a service" },
+          { name: "Technology as aservice" },
+          { name: "Energy as a service" },
+          { name: "ESG as a service" },
+          { name: "Government/NGO" },
+        ],
+      },
+    ],
+  },
+  Platform: {
+    sections: [
+      {
+        title: "INFINITYBLU PLATFORM",
+        items: [
+          { name: "Total experience API" },
+          { name: "HEMS Modules" },
+          { name: "Digital Twin" },
+          { name: "OmniExperience" },
+          { name: "TeraOne" },
+        ],
+      },
+      {
+        title: "THIRD-PARTY PLATFORM",
+        items: [
+          { name: "TPASS" },
+          { name: "e-mobility" },
+          { name: "VirtualGas Plan" },
+        ],
+      },
+    ],
+  },
+  "Venture Design lab": {
+    sections: [
+      {
+        title: "",
+        items: [
+          { name: "Overview" },
+          { name: "Collaborations" },
+          { name: "Innovation Approach" },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          { name: "Case-studies" },
+          { name: "Framework" },
+          { name: "Contact" },
+        ],
+      },
+    ],
+  },
+  Resources: {
+    sections: [
+      {
+        title: "RESOURCES",
+        items: [
+          { name: "Blog" },
+          { name: "Market Trend" },
+          { name: "Webinar" },
+          { name: "Third Party Articles" },
+          { name: "Press Release" },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          { name: "ESG+ CSR +SOS" },
+          { name: "Efficiency to zero" },
+          { name: "(Re)Invent the Future" },
+        ],
+      },
+      {
+        title: "",
+        items: [
+          { name: "Our thinking" },
+          { name: "Mission" },
+          { name: "Mission" },
+          { name: "Goal" },
+          { name: "Value" },
+          { name: "Vision" },
+          { name: "Career" },
+          { name: "Philosophy" },
+        ],
+      },
+    ],
+  },
+  "Why Us": {
+    sections: [
+      {
+        title: "",
+        items: [],
+      },
+    ],
+  },
 };
 
-export default function Navigation() {
-  const [active, setActive] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileActive, setMobileActive] = useState<string | null>(null);
+const DropdownContent: React.FC<{ data: MenuData; isVisible: boolean }> = ({
+  data,
+  isVisible,
+}) => {
+  const sectionCount = data.sections.length;
+  const gridCols =
+    sectionCount === 1
+      ? "md:grid-cols-2"
+      : sectionCount === 2
+      ? "md:grid-cols-2 lg:grid-cols-4"
+      : sectionCount === 3
+      ? "md:grid-cols-3 lg:grid-cols-4"
+      : "md:grid-cols-2 lg:grid-cols-4";
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="flex-shrink-0">
-            <img src="/logo.jpg" alt="Infinity Bleu" className="w-28 h-12" />
-          </a>
-
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-6">
-            {Object.entries(navItems).map(([label, items]) => (
-              <div
-                key={label}
-                className="relative"
-                onMouseEnter={() => setActive(label)}
-                onMouseLeave={() => setActive(null)}
-              >
-                <button className="text-gray-900 hover:text-blue-600 text-sm font-medium flex items-center gap-1 transition-colors py-2">
-                  {label}
-                  <ChevronDown className="w-3 h-3" />
-                </button>
-
-                <AnimatePresence>
-                  {active === label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute left-1/2 -translate-x-1/2 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64"
-                    >
-                      <div className="space-y-1">
-                        {items.map((item, i) => (
-                          <motion.a
-                            key={item}
-                            href="#"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: i * 0.02 }}
-                            className="block px-3 py-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded transition-colors"
-                          >
-                            {item}
-                          </motion.a>
-                        ))}
+    <div
+      className={`fixed left-0 right-0 top-20 z-30 w-full bg-white border-b border-gray-200 shadow-lg transition-all duration-300 ease-out ${
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-4 pointer-events-none"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className={`grid grid-cols-1 ${gridCols} gap-x-10 gap-y-8`}>
+          {data.sections.map((section, idx) => (
+            <div
+              key={idx}
+              className={`transition-all duration-300 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-2"
+              }`}
+              style={{ transitionDelay: isVisible ? `${idx * 60}ms` : "0ms" }}
+            >
+              {section.title && (
+                <h3 className="text-xs font-bold text-gray-600 mb-5 tracking-wider uppercase">
+                  {section.title}
+                </h3>
+              )}
+              <div className="space-y-4">
+                {section.items?.map((item, itemIdx) => (
+                  <a key={itemIdx} href="#" className="block group">
+                    <div className="text-sm font-medium text-gray-800 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200">
+                      {item.name}
+                    </div>
+                    {item.description && (
+                      <div className="text-xs text-gray-500 mt-1 leading-relaxed">
+                        {item.description}
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    )}
+                  </a>
+                ))}
               </div>
-            ))}
-
-          <Button className="text-neutral-800 px-4! py-2! text-sm">Let's Talk</Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2"
-          >
-            <div className="w-5 h-4 flex flex-col justify-between">
-              <span
-                className={`block w-full h-0.5 bg-gray-900 transition-transform ${
-                  mobileOpen ? "rotate-45 translate-y-1.5" : ""
-                }`}
-              />
-              <span
-                className={`block w-full h-0.5 bg-gray-900 transition-opacity ${
-                  mobileOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`block w-full h-0.5 bg-gray-900 transition-transform ${
-                  mobileOpen ? "-rotate-45 -translate-y-1.5" : ""
-                }`}
-              />
             </div>
-          </button>
+          ))}
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden overflow-hidden bg-white border-t border-gray-200"
+const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      <div
+        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 md:hidden ${
+          isOpen ? "opacity-50" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
+      <div
+        className={`fixed top-0 right-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out md:hidden ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 className="text-lg font-bold text-gray-900">Menu</h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <div className="px-6 py-4 space-y-2">
-              {Object.entries(navItems).map(([label, items]) => (
-                <div
-                  key={label}
-                  className="border-b border-gray-100 pb-2 last:border-0"
-                >
-                  <button
-                    onClick={() =>
-                      setMobileActive(mobileActive === label ? null : label)
-                    }
-                    className="w-full flex items-center justify-between py-2 text-sm font-medium text-gray-900"
-                  >
-                    {label}
-                    <ChevronDown
-                      className={`w-3 h-3 transition-transform ${
-                        mobileActive === label ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
-                  <AnimatePresence>
-                    {mobileActive === label && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pl-3 pt-1 pb-2 space-y-1">
-                          {items.map((item) => (
-                            <a
-                              key={item}
-                              href="#"
-                              className="block py-2 px-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded transition-colors"
-                            >
-                              {item}
-                            </a>
-                          ))}
+        <div className="overflow-y-auto h-[calc(100vh-88px)] p-4">
+          {Object.keys(menuData).map((menu) => (
+            <div key={menu} className="border-b border-gray-100 last:border-0">
+              <button
+                onClick={() =>
+                  setExpandedMenu(expandedMenu === menu ? null : menu)
+                }
+                className="w-full flex items-center justify-between py-4 px-2 text-left text-gray-900 font-medium hover:bg-gray-50 transition-colors rounded-lg"
+              >
+                {menu}
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform duration-300 ${
+                    expandedMenu === menu ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  expandedMenu === menu
+                    ? "max-h-96 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="pl-4 pb-4 space-y-6">
+                  {menuData[menu].sections.map((section, idx) => (
+                    <div key={idx}>
+                      {section.title && (
+                        <div className="text-xs font-bold text-gray-500 mb-3 uppercase tracking-wide">
+                          {section.title}
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      )}
+                      <div className="space-y-3">
+                        {section.items?.map((item, itemIdx) => (
+                          <a
+                            key={itemIdx}
+                            href="#"
+                            className="block py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:translate-x-1 transition-all"
+                          >
+                            {item.name}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+};
 
-              <button className="w-full mt-3 px-4 py-2 text-sm font-medium text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors">
-                let's talk
+export default function Navbar(): JSX.Element {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+  const [isHoveringContent, setIsHoveringContent] = useState(false);
+
+  const currentDropdown = hoveredDropdown || activeDropdown;
+
+  const handleMouseEnter = (menu: string) => setHoveredDropdown(menu);
+
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      if (!isHoveringContent) setHoveredDropdown(null);
+    }, 100);
+  };
+
+  return (
+    <>
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center gap-8">
+              <img
+                src="/logo.jpg"
+                alt="logo"
+                className="h-10 w-auto object-contain"
+              />
+
+              <div className="hidden lg:flex items-center space-x-1">
+                {Object.keys(menuData).map((menu) => (
+                  <div
+                    key={menu}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(menu)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <button
+                      onClick={() =>
+                        setActiveDropdown(activeDropdown === menu ? null : menu)
+                      }
+                      className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                        currentDropdown === menu
+                          ? "text-gray-900"
+                          : "text-gray-600 hover:text-gray-900"
+                      }`}
+                    >
+                      {menu}
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-300 ${
+                          currentDropdown === menu ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Button className="text-black hover:text-white transition-colors duration-300 hidden sm:block">
+                Contact Sales
+              </Button>
+
+              <button
+                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
               </button>
             </div>
-          </motion.div>
+          </div>
+        </div>
+
+        {currentDropdown && (
+          <div
+            onMouseEnter={() => setIsHoveringContent(true)}
+            onMouseLeave={() => {
+              setIsHoveringContent(false);
+              setHoveredDropdown(null);
+            }}
+          >
+            <DropdownContent
+              data={menuData[currentDropdown]}
+              isVisible={true}
+            />
+          </div>
         )}
-      </AnimatePresence>
-    </nav>
+      </nav>
+
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
+    </>
   );
 }
