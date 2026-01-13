@@ -1,6 +1,7 @@
 import React, { useState, useEffect, type JSX } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./ui/Button";
+import { div } from "framer-motion/client";
 
 interface MenuItem {
   name: string;
@@ -43,13 +44,13 @@ const menuData: Record<string, MenuData> = {
   Platform: {
     sections: [
       {
-        title: "INFINITYBLU PLATFORM",
+        title: "INFINITEBLEU PLATFORM",
         items: [
           { name: "Total experience API" },
           { name: "HEMS Modules" },
           { name: "Digital Twin" },
-          { name: "OmniExperience" },
-          { name: "TeraOne" },
+          { name: "OmniXperience" },
+          { name: "TerraOne" },
         ],
       },
       {
@@ -85,7 +86,7 @@ const menuData: Record<string, MenuData> = {
   Resources: {
     sections: [
       {
-        title: "RESOURCES",
+        title: "",
         items: [
           { name: "Blog" },
           { name: "Market Trend" },
@@ -127,10 +128,11 @@ const menuData: Record<string, MenuData> = {
   },
 };
 
-const DropdownContent: React.FC<{ data: MenuData; isVisible: boolean }> = ({
-  data,
-  isVisible,
-}) => {
+const DropdownContent: React.FC<{
+  data: MenuData;
+  isVisible: boolean;
+  menuName?: string;
+}> = ({ data, isVisible, menuName }) => {
   const sectionCount = data.sections.length;
   const gridCols =
     sectionCount === 1
@@ -141,15 +143,22 @@ const DropdownContent: React.FC<{ data: MenuData; isVisible: boolean }> = ({
       ? "md:grid-cols-3 lg:grid-cols-4"
       : "md:grid-cols-2 lg:grid-cols-4";
 
+  const showResourcesHeading = menuName === "Resources";
+
   return (
     <div
-      className={`fixed left-0 right-0 top-20 z-30 w-full bg-white border-b border-gray-200 shadow-lg transition-all duration-300 ease-out ${
+      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 rounded-bl-full shadow-lg transition-all duration-300 ease-out ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-12">
+        {showResourcesHeading && (
+          <div className="max-w-3xl">
+            <h2 className="mb-6 text-gray-900 text-center">RESOURCES</h2>
+          </div>
+        )}
         <div className={`grid grid-cols-1 ${gridCols} gap-x-10 gap-y-8`}>
           {data.sections.map((section, idx) => (
             <div
@@ -161,19 +170,19 @@ const DropdownContent: React.FC<{ data: MenuData; isVisible: boolean }> = ({
               }`}
               style={{ transitionDelay: isVisible ? `${idx * 60}ms` : "0ms" }}
             >
-              {section.title && (
-                <h3 className="text-xs font-bold text-gray-600 mb-5 tracking-wider uppercase">
+              {section.title && section.title !== "RESOURCES" && (
+                <h3 className="text-xs text-gray-500 mb-4 tracking-wide uppercase font-normal">
                   {section.title}
                 </h3>
               )}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {section.items?.map((item, itemIdx) => (
                   <a key={itemIdx} href="#" className="block group">
-                    <div className="text-sm font-medium text-gray-800 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200">
+                    <div className="text-sm font-normal text-gray-700 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200">
                       {item.name}
                     </div>
                     {item.description && (
-                      <div className="text-xs text-gray-500 mt-1 leading-relaxed">
+                      <div className="text-xs text-gray-500 mt-1 leading-relaxed font-normal">
                         {item.description}
                       </div>
                     )}
@@ -204,7 +213,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black z-999 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 md:hidden ${
           isOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -215,13 +224,12 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         }`}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-lg font-bold text-gray-900">Menu</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
           >
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-gray-900"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -236,18 +244,18 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           </button>
         </div>
 
-        <div className="overflow-y-auto h-[calc(100vh-88px)] p-4">
+        <div className="overflow-y-auto h-[calc(100vh-168px)] p-4">
           {Object.keys(menuData).map((menu) => (
             <div key={menu} className="border-b border-gray-100 last:border-0">
               <button
                 onClick={() =>
                   setExpandedMenu(expandedMenu === menu ? null : menu)
                 }
-                className="w-full flex items-center justify-between py-4 px-2 text-left text-gray-900 font-medium hover:bg-gray-50 transition-colors rounded-lg"
+                className="w-full flex items-center justify-between py-3 px-2 text-left text-gray-800 font-normal hover:bg-gray-50 transition-colors rounded-lg"
               >
-                {menu}
+                <span className="text-sm">{menu}</span>
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform duration-300 ${
+                  className={`w-4 h-4 transition-transform duration-300 ${
                     expandedMenu === menu ? "rotate-180" : ""
                   }`}
                 />
@@ -260,20 +268,20 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="pl-4 pb-4 space-y-6">
+                <div className="pl-4 pb-3 space-y-4">
                   {menuData[menu].sections.map((section, idx) => (
                     <div key={idx}>
                       {section.title && (
-                        <div className="text-xs font-bold text-gray-500 mb-3 uppercase tracking-wide">
+                        <div className="text-xs font-normal text-gray-500 mb-2 uppercase tracking-wide">
                           {section.title}
                         </div>
                       )}
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {section.items?.map((item, itemIdx) => (
                           <a
                             key={itemIdx}
                             href="#"
-                            className="block py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:translate-x-1 transition-all"
+                            className="block py-1 text-xs text-gray-600 hover:text-gray-900 hover:translate-x-1 transition-all font-normal"
                           >
                             {item.name}
                           </a>
@@ -285,6 +293,12 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 bg-white">
+          <Button className="w-full text-black hover:text-white transition-colors duration-300">
+            Contact Sales
+          </Button>
         </div>
       </div>
     </>
@@ -316,7 +330,7 @@ export default function Navbar(): JSX.Element {
               <img
                 src="/logo.jpg"
                 alt="logo"
-                className="h-10 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
 
               <div className="hidden lg:flex items-center space-x-1">
@@ -331,7 +345,7 @@ export default function Navbar(): JSX.Element {
                       onClick={() =>
                         setActiveDropdown(activeDropdown === menu ? null : menu)
                       }
-                      className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                      className={`flex items-center gap-1.5 px-4 py-2 text-sm font-normal transition-colors duration-200 ${
                         currentDropdown === menu
                           ? "text-gray-900"
                           : "text-gray-600 hover:text-gray-900"
@@ -359,7 +373,7 @@ export default function Navbar(): JSX.Element {
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-6 h-6 text-gray-900"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -387,6 +401,7 @@ export default function Navbar(): JSX.Element {
             <DropdownContent
               data={menuData[currentDropdown]}
               isVisible={true}
+              menuName={currentDropdown}
             />
           </div>
         )}
