@@ -97,9 +97,9 @@ const menuData: Record<string, MenuData> = {
       {
         title: "",
         items: [
-          { name: "ESG+ CSR +SOS" },
+          { name: "ESG+ CSR +SGS" },
           { name: "Efficiency to zero" },
-          { name: "(Re)Invent the Future" },
+          { name: "(Re)Finance the Future" },
         ],
       },
       {
@@ -121,7 +121,12 @@ const menuData: Record<string, MenuData> = {
     sections: [
       {
         title: "",
-        items: [],
+        items: [
+          { name: "About Us" },
+          { name: "Impact" },
+          { name: "NewsRoom" },
+          { name: "Careers" },
+        ],
       },
     ],
   },
@@ -146,7 +151,7 @@ const DropdownContent: React.FC<{
 
   return (
     <div
-      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 rounded-bl-full shadow-lg transition-all duration-300 ease-out ${
+      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 rounded-bl-full shadow-lg transition-all duration-300 ease-out px-16${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-4 pointer-events-none"
@@ -155,7 +160,7 @@ const DropdownContent: React.FC<{
       <div className="max-w-7xl mx-auto px-6 py-12">
         {showResourcesHeading && (
           <div className="max-w-3xl">
-            <h2 className="mb-6 text-gray-900 text-center">RESOURCES</h2>
+            <h2 className="mb-6 text-gray-900 text-left">RESOURCES</h2>
           </div>
         )}
         <div className={`grid grid-cols-1 ${gridCols} gap-x-10 gap-y-8`}>
@@ -363,12 +368,12 @@ export default function Navbar(): JSX.Element {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button className="text-black hover:text-white transition-colors duration-300 hidden sm:block">
+              <Button className="text-black hover:text-white transition-colors duration-300 hidden! md:flex">
                 Let's Talk
               </Button>
 
               <button
-                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors "
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg

@@ -17,7 +17,7 @@ export default function Button({
 
   className = "",
   onClick,
-  fillClassName = "bg-[#0B1F33]",
+  fillClassName = "bg-[#1F3C88]",
 }: ButtonProps) {
   const [, setHovered] = useState(false);
   const controls = useAnimation();
