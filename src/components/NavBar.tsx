@@ -1,7 +1,6 @@
 import React, { useState, useEffect, type JSX } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./ui/Button";
-import { div } from "framer-motion/client";
 
 interface MenuItem {
   name: string;
@@ -297,7 +296,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 bg-white">
           <Button className="w-full text-black hover:text-white transition-colors duration-300">
-            Contact Sales
+            Let's Talk
           </Button>
         </div>
       </div>
@@ -365,7 +364,7 @@ export default function Navbar(): JSX.Element {
 
             <div className="flex items-center gap-4">
               <Button className="text-black hover:text-white transition-colors duration-300 hidden sm:block">
-                Contact Sales
+                Let's Talk
               </Button>
 
               <button
