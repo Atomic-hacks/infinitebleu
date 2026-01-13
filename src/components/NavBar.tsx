@@ -204,7 +204,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black z-999 transition-opacity duration-300 md:hidden ${
           isOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
