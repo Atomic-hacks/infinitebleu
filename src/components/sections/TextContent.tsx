@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 // Define the types for the props
 interface TextContentProps {
