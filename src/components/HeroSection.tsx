@@ -1,3 +1,4 @@
+import React from "react";
 import TrustedPage from "./sections/TrustedPage";
 
 const HeroSection = () => {
