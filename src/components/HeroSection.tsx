@@ -46,6 +46,7 @@ export default function HeroSection() {
 
   const currentSlide = slides[activeIndex];
 
+const HeroSection = () => {
   return (
     <section
       aria-label="InfinityBleu hero"
@@ -133,4 +134,6 @@ export default function HeroSection() {
       </div>
     </section>
   );
-}
+};
+
+export default HeroSection;
