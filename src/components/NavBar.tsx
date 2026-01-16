@@ -1,131 +1,163 @@
 import React, { useState, useEffect, type JSX } from "react";
-import { ChevronDown } from "lucide-react";
+import {
+  ChevronDown,
+  Building2,
+  Heart,
+  Cpu,
+  ShoppingCart,
+  DollarSign,
+  Code,
+  Zap,
+  Leaf,
+  Landmark,
+  Apple,
+  Home,
+  Monitor,
+  Globe,
+  Car,
+  Fuel,
+  Eye,
+  Handshake,
+  Lightbulb,
+  FileText,
+  TrendingUp,
+  Video,
+  Newspaper,
+  Target,
+  Gauge,
+  Users,
+  Info,
+  BarChart3,
+  Briefcase,
+  type LucideIcon,
+} from "lucide-react";
 import Button from "./ui/Button";
 
 interface MenuItem {
   name: string;
   description?: string;
+  icon?: LucideIcon;
 }
 
-interface MenuSection {
-  title: string;
-  items?: MenuItem[];
+interface MenuColumn {
+  title?: string;
+  items: MenuItem[];
 }
 
 interface MenuData {
-  sections: MenuSection[];
+  showHeading?: boolean;
+  columns: MenuColumn[];
 }
 
 const menuData: Record<string, MenuData> = {
   "Why Hire Us": {
-    sections: [
+    columns: [
       {
         title: "USE CASES",
         items: [
-          { name: "Sustainable Buildings" },
-          { name: "Healthy Buildings" },
-          { name: "Digital buildings" },
+          { name: "Sustainable Buildings", icon: Building2 },
+          { name: "Healthy Buildings", icon: Heart },
+          { name: "Digital buildings", icon: Cpu },
         ],
       },
       {
         title: "SECTORS",
         items: [
-          { name: "Retails" },
-          { name: "Finance as a service" },
-          { name: "Technology as aservice" },
-          { name: "Energy as a service" },
-          { name: "ESG as a service" },
-          { name: "Government/NGO" },
+          { name: "Retails", icon: ShoppingCart },
+          { name: "Finance as a service", icon: DollarSign },
+          { name: "Technology as aservice", icon: Code },
+          { name: "Energy as a service", icon: Zap },
+          { name: "ESG as a service", icon: Leaf },
+          { name: "Government/NGO", icon: Landmark },
         ],
       },
     ],
   },
   Platform: {
-    sections: [
+    columns: [
       {
         title: "INFINITEBLEU PLATFORM",
         items: [
-          { name: "Total experience API" },
-          { name: "HEMS Modules" },
-          { name: "Digital Twin" },
-          { name: "OmniXperience" },
-          { name: "TerraOne" },
+          { name: "Total experience API", icon: Apple },
+          { name: "HEMS Modules", icon: Home },
+          { name: "Digital Twin", icon: Monitor },
+          { name: "OmniXperience", icon: Globe },
+          { name: "TerraOne", icon: Leaf },
         ],
       },
       {
         title: "THIRD-PARTY PLATFORM",
         items: [
-          { name: "TPASS" },
-          { name: "e-mobility" },
-          { name: "VirtualGas Plan" },
+          { name: "TPASS", icon: Target },
+          { name: "e-mobility", icon: Car },
+          { name: "VirtualGas Plan", icon: Fuel },
         ],
       },
     ],
   },
   "Venture Design lab": {
-    sections: [
+    columns: [
       {
-        title: "",
         items: [
-          { name: "Overview" },
-          { name: "Collaborations" },
-          { name: "Innovation Approach" },
+          { name: "Overview", icon: Eye },
+          { name: "Collaborations", icon: Handshake },
+          { name: "Innovation Approach", icon: Lightbulb },
         ],
       },
       {
-        title: "",
         items: [
-          { name: "Case-studies" },
-          { name: "Framework" },
-          { name: "Contact" },
+          { name: "Case-studies", icon: FileText },
+          { name: "Framework", icon: Monitor },
+          { name: "Contact", icon: Users },
         ],
       },
     ],
   },
   Resources: {
-    sections: [
+    showHeading: true,
+    columns: [
       {
-        title: "",
         items: [
-          { name: "Blog" },
-          { name: "Market Trend" },
-          { name: "Webinar" },
-          { name: "Third Party Articles" },
-          { name: "Press Release" },
+          { name: "Blog", icon: FileText },
+          { name: "Market Trend", icon: TrendingUp },
+          { name: "Webinar", icon: Video },
+          { name: "Third Party Articles", icon: Newspaper },
+          { name: "Press Release", icon: Newspaper },
         ],
       },
       {
-        title: "",
         items: [
-          { name: "ESG+ CSR +SGS" },
-          { name: "Efficiency to zero" },
-          { name: "(Re)Finance the Future" },
+          { name: "ESG+ CSR +SGS", icon: Leaf },
+          { name: "Efficiency to zero", icon: Gauge },
+          { name: "(Re)Finance the Future", icon: DollarSign },
         ],
       },
       {
-        title: "",
         items: [
-          { name: "Our thinking" },
-          { name: "Mission" },
-          { name: "Mission" },
-          { name: "Goal" },
-          { name: "Value" },
-          { name: "Vision" },
-          { name: "Career" },
-          { name: "Philosophy" },
+          { name: "Our thinking", icon: Lightbulb },
+          { name: "Mission", icon: Target },
+          { name: "Mission", icon: Target },
+          { name: "Goal", icon: Target },
+          { name: "Value", icon: Heart },
+          { name: "Vision", icon: Eye },
+          { name: "Career", icon: Briefcase },
+          { name: "Philosophy", icon: Lightbulb },
         ],
       },
     ],
   },
   "Why Us": {
-    sections: [
+    columns: [
       {
-        title: "",
         items: [
-          { name: "About Us" },
-          { name: "Impact" },
-          { name: "NewsRoom" },
-          { name: "Careers" },
+          { name: "About Us", icon: Info },
+          { name: "Impact", icon: BarChart3 },
+        ],
+      },
+      {
+        items: [
+          { name: "NewsRoom", icon: Newspaper },
+          { name: "Careers", icon: Briefcase },
         ],
       },
     ],
@@ -135,55 +167,46 @@ const menuData: Record<string, MenuData> = {
 const DropdownContent: React.FC<{
   data: MenuData;
   isVisible: boolean;
-  menuName?: string;
-}> = ({ data, isVisible, menuName }) => {
-  const sectionCount = data.sections.length;
-  const gridCols =
-    sectionCount === 1
-      ? "md:grid-cols-2"
-      : sectionCount === 2
-      ? "md:grid-cols-2 lg:grid-cols-4"
-      : sectionCount === 3
-      ? "md:grid-cols-3 lg:grid-cols-4"
-      : "md:grid-cols-2 lg:grid-cols-4";
-
-  const showResourcesHeading = menuName === "Resources";
-
+}> = ({ data, isVisible }) => {
   return (
     <div
-      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 rounded-bl-full shadow-lg transition-all duration-300 ease-out px-16${
+      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 rounded-bl-full shadow-lg transition-all duration-300 ease-out px-16 ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-12">
-        {showResourcesHeading && (
+        {data.showHeading && (
           <div className="max-w-3xl">
             <h2 className="mb-6 text-gray-900 text-left">RESOURCES</h2>
           </div>
         )}
-        <div className={`grid grid-cols-1 ${gridCols} gap-x-10 gap-y-8`}>
-          {data.sections.map((section, idx) => (
+
+        <div className="flex gap-10 flex-wrap">
+          {data.columns.map((column, idx) => (
             <div
               key={idx}
-              className={`transition-all duration-300 ${
+              className={`flex-1 min-w-[200px] transition-all duration-300 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-2"
               }`}
               style={{ transitionDelay: isVisible ? `${idx * 60}ms` : "0ms" }}
             >
-              {section.title && section.title !== "RESOURCES" && (
+              {column.title && (
                 <h3 className="text-xs text-gray-500 mb-4 tracking-wide uppercase font-normal">
-                  {section.title}
+                  {column.title}
                 </h3>
               )}
               <div className="space-y-3">
-                {section.items?.map((item, itemIdx) => (
+                {column.items.map((item, itemIdx) => (
                   <a key={itemIdx} href="#" className="block group">
-                    <div className="text-sm font-normal text-gray-700 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200">
-                      {item.name}
+                    <div className="flex items-center gap-2 text-sm font-normal text-gray-700 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200">
+                      {item.icon && (
+                        <item.icon className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                      )}
+                      <span>{item.name}</span>
                     </div>
                     {item.description && (
                       <div className="text-xs text-gray-500 mt-1 leading-relaxed font-normal">
@@ -249,7 +272,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         </div>
 
         <div className="overflow-y-auto h-[calc(100vh-168px)] p-4">
-          {Object.keys(menuData).map((menu) => (
+          {Object.entries(menuData).map(([menu, data]) => (
             <div key={menu} className="border-b border-gray-100 last:border-0">
               <button
                 onClick={() =>
@@ -273,21 +296,24 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 }`}
               >
                 <div className="pl-4 pb-3 space-y-4">
-                  {menuData[menu].sections.map((section, idx) => (
+                  {data.columns.map((column, idx) => (
                     <div key={idx}>
-                      {section.title && (
+                      {column.title && (
                         <div className="text-xs font-normal text-gray-500 mb-2 uppercase tracking-wide">
-                          {section.title}
+                          {column.title}
                         </div>
                       )}
                       <div className="space-y-2">
-                        {section.items?.map((item, itemIdx) => (
+                        {column.items.map((item, itemIdx) => (
                           <a
                             key={itemIdx}
                             href="#"
-                            className="block py-1 text-xs text-gray-600 hover:text-gray-900 hover:translate-x-1 transition-all font-normal"
+                            className="flex items-center gap-2 py-1 text-xs text-gray-600 hover:text-gray-900 hover:translate-x-1 transition-all font-normal"
                           >
-                            {item.name}
+                            {item.icon && (
+                              <item.icon className="w-3 h-3 text-gray-400" />
+                            )}
+                            <span>{item.name}</span>
                           </a>
                         ))}
                       </div>
@@ -312,18 +338,6 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 export default function Navbar(): JSX.Element {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
-  const [isHoveringContent, setIsHoveringContent] = useState(false);
-
-  const currentDropdown = hoveredDropdown || activeDropdown;
-
-  const handleMouseEnter = (menu: string) => setHoveredDropdown(menu);
-
-  const handleMouseLeave = () => {
-    setTimeout(() => {
-      if (!isHoveringContent) setHoveredDropdown(null);
-    }, 100);
-  };
 
   return (
     <>
@@ -338,19 +352,16 @@ export default function Navbar(): JSX.Element {
               />
 
               <div className="hidden lg:flex items-center space-x-1">
-                {Object.keys(menuData).map((menu) => (
+                {Object.entries(menuData).map(([menu, data]) => (
                   <div
                     key={menu}
                     className="relative"
-                    onMouseEnter={() => handleMouseEnter(menu)}
-                    onMouseLeave={handleMouseLeave}
+                    onMouseEnter={() => setActiveDropdown(menu)}
+                    onMouseLeave={() => setActiveDropdown(null)}
                   >
                     <button
-                      onClick={() =>
-                        setActiveDropdown(activeDropdown === menu ? null : menu)
-                      }
                       className={`flex items-center gap-1.5 px-4 py-2 text-sm font-normal transition-colors duration-200 ${
-                        currentDropdown === menu
+                        activeDropdown === menu
                           ? "text-gray-900"
                           : "text-gray-600 hover:text-gray-900"
                       }`}
@@ -358,22 +369,27 @@ export default function Navbar(): JSX.Element {
                       {menu}
                       <ChevronDown
                         className={`w-4 h-4 transition-transform duration-300 ${
-                          currentDropdown === menu ? "rotate-180" : ""
+                          activeDropdown === menu ? "rotate-180" : ""
                         }`}
                       />
                     </button>
+
+                    <DropdownContent
+                      data={data}
+                      isVisible={activeDropdown === menu}
+                    />
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <Button className="text-black hover:text-white transition-colors duration-300 hidden! md:flex">
+              <Button className="text-black hover:text-white transition-colors duration-300 hidden md:flex">
                 Let's Talk
               </Button>
 
               <button
-                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors "
+                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg
@@ -393,22 +409,6 @@ export default function Navbar(): JSX.Element {
             </div>
           </div>
         </div>
-
-        {currentDropdown && (
-          <div
-            onMouseEnter={() => setIsHoveringContent(true)}
-            onMouseLeave={() => {
-              setIsHoveringContent(false);
-              setHoveredDropdown(null);
-            }}
-          >
-            <DropdownContent
-              data={menuData[currentDropdown]}
-              isVisible={true}
-              menuName={currentDropdown}
-            />
-          </div>
-        )}
       </nav>
 
       <MobileMenu
