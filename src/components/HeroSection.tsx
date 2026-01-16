@@ -4,7 +4,7 @@ import Button from "./ui/Button";
 
 const slides = [
   {
-    image: "/Home1.avif",
+    image: "/home6.jpg",
     headline: "Designing Tomorrow's",
     headlineLine2: "Experience, Today",
     description:
@@ -12,7 +12,7 @@ const slides = [
     primaryCta: "Discover More",
   },
   {
-    image: "/Home3.avif",
+    image: "/home5.jpg",
     headline: " We Design",
     headlineLine2: "Experiences That Define the Future.",
     description:
@@ -20,7 +20,7 @@ const slides = [
     primaryCta: "Explore Solutions",
   },
   {
-    image: "/Home4.jpg",
+    image: "/home4.jpg",
     headline: "Empowering Ideas ",
     headlineLine2: "Through Design Systems",
     description:
@@ -49,7 +49,7 @@ export default function HeroSection() {
   return (
     <section
       aria-label="InfinityBleu hero"
-      className="relative h-[90vh] w-full overflow-hidden bg-black"
+      className="relative h-[90vh] rounded-2xl w-full overflow-hidden"
     >
       {/* Background slider */}
       <div className="absolute inset-0">

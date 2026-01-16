@@ -8,14 +8,14 @@ import SiteFooter from "./components/layout/SiteFooter";
 
 const App = () => {
   return (
-    <>
+    <main className="relative w-full max-w-[1920] px-8 mx-auto">
       <HeroSection />
       <IntroSection />
       <AlternatingBlocks />
       <FeatureGrid />
       <CallToAction />
       <SiteFooter />
-    </>
+    </main>
   );
 };
 

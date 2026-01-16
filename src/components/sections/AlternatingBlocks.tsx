@@ -1,78 +1,137 @@
-import { motion } from "framer-motion";
-import AlternatingBlocksImg1 from "/AlternatingBlocksImg1.avif";
-import AlternatingBlocksImg2 from "/AlternatingBlocksImg2.webp";
-import AlternatingBlocksImg3 from "/AlternatingBlocksImg3.avif";
+import React from "react";
+import Button from "../ui/Button";
 
-const blocks = [
+interface SectionCard {
+  title: string;
+  heading: string;
+  description: string;
+  features: string[];
+  media: {
+    type: "image" | "video";
+    src: string;
+  };
+  buttonText: string;
+  fill?: string;
+}
+
+const cardsData: SectionCard[] = [
   {
-    title: "Empowering Ideas Through Design Systems",
-    body: "We build frameworks for creativity — where technology enhances storytelling, and every interface reflects clarity, culture, and craft.",
-    image: AlternatingBlocksImg1,
+    title: "Facilities Manager",
+    heading: "Investigate",
+    description:
+      "Gain operational visibility with an interactive map of active alerts for quick issue detection. Dive into Advanced Alerts Analysis to pinpoint root causes, track workflows, and resolve issues efficiently, minimizing downtime and enhancing performance.",
+    features: [
+      "Comprehensive Operational Visibility.",
+      "Advanced Alerts Analysis.",
+      "Streamlined issue resolution.",
+    ],
+    media: {
+      type: "image",
+      src: "/business.jpg",
+    },
+    buttonText: "Contact Sales",
   },
   {
-    title: "Platforms That Evolve With You",
-    body: "Scalable, modular platforms that adapt to tomorrow — aligning experience, data, and operations into one cohesive fabric.",
-    image: AlternatingBlocksImg2,
+    title: "Energy Manager",
+    heading: "Optimize",
+    description:
+      "Leverage AI-powered insights to identify energy-saving opportunities across your portfolio. Monitor real-time consumption, benchmark performance, and implement data-driven strategies to reduce costs and carbon footprint.",
+    features: [
+      "Real-time energy monitoring.",
+      "AI-powered recommendations.",
+      "Portfolio-wide benchmarking.",
+    ],
+    media: {
+      type: "video",
+      src: "/business.mp4",
+    },
+    buttonText: "Learn More",
+    fill: "bg-blue-200",
   },
   {
-    title: "From Vision To Impact",
-    body: "We turn north stars into measurable outcomes — designing with intent, engineering with precision, delivering with elegance.",
-    image: AlternatingBlocksImg3,
+    title: "Portfolio Manager",
+    heading: "Analyze",
+    description:
+      "Get a comprehensive view of your entire building portfolio with unified dashboards and analytics. Track KPIs, compare performance across assets, and make informed decisions with centralized data management.",
+    features: [
+      "Unified portfolio dashboard.",
+      "Cross-asset analytics.",
+      "Performance tracking.",
+    ],
+    media: {
+      type: "image",
+      src: "business2.jpg",
+    },
+    buttonText: "Request Demo",
   },
 ];
 
-export default function AlternatingBlocks() {
+const SectionCards: React.FC = () => {
   return (
-    <section className="bg-white text-[#0B1223]">
-      {blocks.map((block, index) => {
-        const isReversed = index % 2 === 1;
+    <div className="bg-gray-50 py-16 max-w-[1680px] mx-auto">
+      {cardsData.map((card, index) => {
+        const isReversed = index % 2 !== 0;
 
         return (
           <div
-            key={block.title}
-            className="max-w-7xl mx-auto py-24 px-6 md:px-10"
+            key={index}
+            className={`flex mx-auto mb-16 w-full h-[600px] px-8 last:mb-0 rounded-bl-3xl rounded-tr-3xl py-8 ${
+              index !== 0 ? "mt-16" : ""
+            } ${card.fill}`}
           >
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center ${
-                isReversed ? "md:flex-row-reverse" : ""
+              className={`flex items-center gap-12 h-full ${
+                isReversed ? "flex-row-reverse" : ""
               }`}
             >
-              {/* Text */}
-              <motion.div
-                initial={{ opacity: 0, x: isReversed ? 24 : -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="max-w-lg"
-              >
-                <h3 className="text-2xl md:text-4xl font-semibold">
-                  {block.title}
-                </h3>
-                <p className="text-[#0B1223]/80 mt-4 leading-relaxed">
-                  {block.body}
-                </p>
-              </motion.div>
-
-              {/* Image */}
-              <motion.div
-                initial={{ opacity: 0, x: isReversed ? -24 : 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
-              >
-                <div className="overflow-hidden rounded-2xl shadow-[0_12px_24px_rgba(36,92,255,0.1)]">
-                  <img
-                    src={block.image}
-                    alt={block.title}
-                    className="w-full h-[340px] md:h-[420px] object-cover transition-transform duration-500 ease-out hover:scale-[1.03]"
-                    loading="lazy"
-                  />
+              <div className="flex-1">
+                <div className="mb-2 text-sm font-semibold text-cyan-600">
+                  {card.title}
                 </div>
-              </motion.div>
+                <h2 className="mb-6 text-5xl font-bold text-gray-900">
+                  {card.heading}
+                </h2>
+                <p className="mb-8 text-base leading-relaxed text-gray-700">
+                  {card.description}
+                </p>
+                <ul className="mb-10 space-y-3">
+                  {card.features.map((feature, featureIndex) => (
+                    <li
+                      key={featureIndex}
+                      className="flex items-start text-base font-semibold text-gray-900"
+                    >
+                      <span className="mr-3 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-900"></span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="text-black!">{card.buttonText}</Button>
+              </div>
+
+              <div className="flex-1 h-full">
+                {card.media.type === "image" ? (
+                  <img
+                    src={card.media.src}
+                    alt={card.heading}
+                    className="h-full w-full object-cover rounded-lg shadow-lg"
+                  />
+                ) : (
+                  <video
+                    src={card.media.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="h-full w-full object-cover rounded-lg shadow-lg"
+                  />
+                )}
+              </div>
             </div>
           </div>
         );
       })}
-    </section>
+    </div>
   );
-}
+};
+
+export default SectionCards;
