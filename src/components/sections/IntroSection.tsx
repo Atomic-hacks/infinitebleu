@@ -1,4 +1,6 @@
-
+import { motion } from "framer-motion";
+import Button from "../ui/Button";
+import React from "react";
 
 const stats = [
   {
@@ -69,20 +71,24 @@ const IntroSection = () => {
               Our philosophy blends precision with imagination — every detail
               intentional, every interaction meaningful.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
               <Button>Learn More</Button>
             </div>
-          ))}
+          </motion.div>
         </div>
 
         {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 mt-20">
           {features.map((feature, i) => (
             <div
               key={i}
               className="border bg-gray-100 rounded-2xl p-8 hover:border-blue-800 transition"
             >
-              <img src={feature.icon} alt="" className="w-18 h-18 mb-6" />
+              <img
+                src={feature.icon}
+                alt={feature.title}
+                className="w-18 h-18 mb-6"
+              />
               <h3 className="text-xl text-black font-semibold mb-4">
                 {feature.title}
               </h3>
@@ -91,9 +97,9 @@ const IntroSection = () => {
                 href={feature.link}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 border border-blue-800 px-6 py-3 rounded-br-2xl text-blue-800 font-medium transition-all hover:gap-3 hover:bg-blue-50"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-br-2xl font-medium transition-all hover:gap-3 hover:bg-blue-50"
               >
-                Learn more →
+                <Button>Learn More</Button>
               </a>
             </div>
           ))}
