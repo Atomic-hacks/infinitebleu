@@ -49,7 +49,7 @@ export default function HeroSection() {
   return (
     <section
       aria-label="InfinityBleu hero"
-      className="relative h-[90vh] rounded-2xl w-full overflow-hidden"
+      className="relative h-[70vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] rounded-lg sm:rounded-xl md:rounded-2xl w-full overflow-hidden"
     >
       {/* Background slider */}
       <div className="absolute inset-0">
@@ -74,8 +74,8 @@ export default function HeroSection() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/65 to-black/0" />
 
       {/* Content */}
-      <div className="relative z-10 h-full w-full flex items-center pl-6 pr-6 sm:pl-10 md:pl-16 lg:pl-24 xl:pl-28">
-        <div className="max-w-2xl text-left text-white">
+      <div className="relative z-10 h-full w-full flex items-center px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:pl-28 pr-4 sm:pr-6">
+        <div className="max-w-xl lg:max-w-2xl text-left text-white">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -84,16 +84,16 @@ export default function HeroSection() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <h1 className="font-bold leading-snug tracking-tight text-white text-3xl md:text-7xl">
+              <h1 className="font-bold leading-tight sm:leading-snug tracking-tight text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                 {currentSlide.headline} <br />
                 {currentSlide.headlineLine2}
               </h1>
 
-              <p className="mt-4 text-white/90 text-base sm:text-lg leading-relaxed max-w-prose">
+              <p className="mt-3 sm:mt-4 text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-prose">
                 {currentSlide.description}
               </p>
 
-              <div className="mt-6">
+              <div className="mt-4 sm:mt-6">
                 <Button direction="right">{currentSlide.primaryCta}</Button>
               </div>
             </motion.div>
@@ -102,16 +102,16 @@ export default function HeroSection() {
       </div>
 
       {/* Slide indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex items-center gap-2">
+      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
-              className="group relative cursor-pointer"
+              className="group relative cursor-pointer touch-manipulation"
               aria-label={`Go to slide ${idx + 1}`}
             >
-              <div className="h-0.5 w-12 bg-white/20 rounded-full overflow-hidden">
+              <div className="h-0.5 w-8 sm:w-10 md:w-12 bg-white/20 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-white rounded-full"
                   initial={{ width: "0%" }}

@@ -37,14 +37,14 @@ const successStories: SuccessStory[] = [
 
 const SuccessStoriesSection: React.FC = () => {
   return (
-    <div className="bg-linear-to-b from-blue-100 to-blue-200 px-8 py-16 rounded-tr-[600px] rounded-bl-[600px] my-40">
+    <div className="bg-linear-to-b from-blue-100 to-blue-200 px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 rounded-tr-[200px] sm:rounded-tr-[400px] md:rounded-tr-[600px] rounded-bl-[200px] sm:rounded-bl-[400px] md:rounded-bl-[600px] my-20 sm:my-30 md:my-40">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-5xl font-bold text-gray-900">
+        <div className="mb-8 sm:mb-10 md:mb-12 text-center">
+          <h2 className="mb-3 sm:mb-4 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
             available device data
           </h2>
-          <p className="mx-auto mb-8 max-w-4xl text-lg leading-relaxed text-gray-700">
+          <p className="mx-auto mb-6 sm:mb-8 max-w-4xl text-base sm:text-lg leading-relaxed text-gray-700 px-4">
             Using connected data, infinite bleu has helped property owners and
             building managers save energy, reduce operating costs, optimize
             efficiency, and meet their sustainability goals.
@@ -53,35 +53,35 @@ const SuccessStoriesSection: React.FC = () => {
         </div>
 
         {/* Success Story Cards */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {successStories.map((story, index) => (
             <div
               key={index}
-              className="overflow-hidden rounded-2xl bg-white shadow-sm"
+              className="overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm"
             >
-              <div className="relative h-64">
+              <div className="relative h-48 sm:h-56 md:h-64">
                 <img
                   src={story.image}
                   alt={story.title}
                   className="h-full w-full object-cover"
                 />
                 {index === 1 && (
-                  <div className="absolute inset-x-0 bottom-0 rounded-t-2xl bg-gray-900/90 px-6 py-4">
-                    <p className="text-lg font-semibold leading-snug text-white">
+                  <div className="absolute inset-x-0 bottom-0 rounded-t-xl sm:rounded-t-2xl bg-gray-900/90 px-4 sm:px-6 py-3 sm:py-4">
+                    <p className="text-base sm:text-lg font-semibold leading-snug text-white">
                       K-12 Career Exploration Campus - Improving Indoor Air
                       Quality
                     </p>
                   </div>
                 )}
               </div>
-              <div className="p-8">
-                <div className="mb-3 text-xs font-bold tracking-wider text-gray-600">
+              <div className="p-6 sm:p-8">
+                <div className="mb-2 sm:mb-3 text-xs font-bold tracking-wider text-gray-600">
                   {story.tag}
                 </div>
-                <h3 className="mb-4 text-xl font-bold leading-tight text-gray-900">
+                <h3 className="mb-3 sm:mb-4 text-lg sm:text-xl font-bold leading-tight text-gray-900">
                   {story.title}
                 </h3>
-                <p className="mb-6 text-base leading-relaxed text-gray-700">
+                <p className="mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed text-gray-700">
                   {story.description}
                 </p>
                 <Button>Learn more</Button>

@@ -51,22 +51,22 @@ const clientLogos = [
   "/icons/windows.png",
 ];
 
-const Dashboard: React.FC = () => {
+const IntroSection: React.FC = () => {
   return (
-    <div className="p-8 max-w-[1440px] mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-[1440px] mx-auto">
       {/* Trusted Clients Section */}
-      <div className="bg-white px-8 py-16">
+      <div className="bg-white px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
         <div className="mx-auto max-w-7xl">
-          <h3 className="mb-12 text-lg font-medium text-gray-600">
+          <h3 className="mb-8 sm:mb-12 text-base sm:text-lg font-medium text-gray-600">
             Trusted by clients and partners worldwide
           </h3>
-          <div className="mb-20 flex items-center justify-between gap-8">
+          <div className="mb-12 sm:mb-16 md:mb-20 grid grid-cols-4 sm:grid-cols-4 md:flex md:items-center md:justify-between gap-4 sm:gap-6 md:gap-8">
             {clientLogos.map((logo, index) => (
               <img
                 key={index}
                 src={logo}
                 alt=""
-                className="h-8 object-contain grayscale opacity-60"
+                className="h-6 sm:h-7 md:h-8 object-contain grayscale opacity-60"
               />
             ))}
           </div>
@@ -74,11 +74,11 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Environmental Impact Section */}
-      <div className="bg-white px-8 py-16">
+      <div className="bg-white px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
         <div className="mx-auto max-w-7xl">
-          <div className="flex items-start gap-16">
+          <div className="flex flex-col md:flex-row items-start gap-8 sm:gap-12 md:gap-16">
             <div className="flex-1">
-              <h2 className="text-5xl font-bold leading-tight text-gray-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-gray-900">
                 Global{" "}
                 <span className="text-blue-500">environmental impact</span>{" "}
                 through the{" "}
@@ -87,7 +87,7 @@ const Dashboard: React.FC = () => {
               </h2>
             </div>
             <div className="flex-1">
-              <p className="text-lg leading-relaxed text-gray-700">
+              <p className="text-base sm:text-lg leading-relaxed text-gray-700">
                 The digital transformation of real estate is helping reduce
                 environmental impact by using smart technologies to improve
                 energy efficiency and resource use. This shift lowers energy
@@ -98,19 +98,23 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="mb-8 rounded-3xl bg-gradient-to-r from-blue-100 to-blue-200 px-16 py-12">
-        <div className="flex justify-around">
+      <div className="mb-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-blue-100 to-blue-200 px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12">
+        <div className="flex flex-col sm:flex-row justify-around gap-6 sm:gap-4">
           {statsData.map((stat, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="flex-shrink-0 p-4 bg-blue-300 rounded-full">
-                <img src={stat.icon} alt="" className="h-12 w-12" />
+            <div key={index} className="flex gap-3 sm:gap-4">
+              <div className="flex-shrink-0 p-3 sm:p-4 bg-blue-300 rounded-full">
+                <img
+                  src={stat.icon}
+                  alt=""
+                  className="h-10 w-10 sm:h-12 sm:w-12"
+                />
               </div>
               <div>
-                <div className="text-5xl font-bold text-gray-900">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
                   {stat.value}
                 </div>
                 <div
-                  className="mt-1 text-base text-gray-700"
+                  className="mt-1 text-sm sm:text-base text-gray-700"
                   dangerouslySetInnerHTML={{ __html: stat.label }}
                 />
               </div>
@@ -119,19 +123,23 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-12 sm:mt-16 md:mt-20">
         {featuresData.map((feature, index) => (
           <div
             key={index}
-            className="rounded-bl-3xl bg-blue-100 rounded-tr-3xl p-8 shadow-sm"
+            className="rounded-bl-2xl bg-blue-100 rounded-tr-2xl sm:rounded-bl-3xl sm:rounded-tr-3xl p-6 sm:p-8 shadow-sm"
           >
-            <div className="mb-6 p-4 bg-blue-300 rounded-full">
-              <img src={feature.icon} alt="" className="h-16 w-16" />
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-blue-300 rounded-full inline-block">
+              <img
+                src={feature.icon}
+                alt=""
+                className="h-12 w-12 sm:h-16 sm:w-16"
+              />
             </div>
-            <h3 className="mb-4 text-2xl font-bold text-gray-900">
+            <h3 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold text-gray-900">
               {feature.title}
             </h3>
-            <p className="mb-8 text-base leading-relaxed text-gray-600">
+            <p className="mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed text-gray-600">
               {feature.description}
             </p>
             <Button className="text-black!">Learn more</Button>
@@ -142,4 +150,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default IntroSection;

@@ -68,37 +68,37 @@ const cardsData: SectionCard[] = [
 
 const SectionCards: React.FC = () => {
   return (
-    <div className="bg-gray-50 py-16 max-w-[1680px] mx-auto">
+    <div className="bg-gray-50 py-8 sm:py-12 md:py-16 max-w-[1680px] mx-auto">
       {cardsData.map((card, index) => {
         const isReversed = index % 2 !== 0;
 
         return (
           <div
             key={index}
-            className={`flex mx-auto mb-16 w-full h-[600px] px-8 last:mb-0 rounded-bl-3xl rounded-tr-3xl py-8 ${
-              index !== 0 ? "mt-16" : ""
+            className={`flex mx-auto mb-8 sm:mb-12 md:mb-16 w-full min-h-[400px] sm:min-h-[500px] md:h-[600px] px-4 sm:px-6 md:px-8 last:mb-0 rounded-bl-2xl rounded-tr-2xl sm:rounded-bl-3xl sm:rounded-tr-3xl py-6 sm:py-8 ${
+              index !== 0 ? "mt-8 sm:mt-12 md:mt-16" : ""
             } ${card.fill}`}
           >
             <div
-              className={`flex items-center gap-12 h-full ${
-                isReversed ? "flex-row-reverse" : ""
-              }`}
+              className={`flex flex-col ${
+                isReversed ? "md:flex-row-reverse" : "md:flex-row"
+              } items-center gap-6 sm:gap-8 md:gap-12 h-full w-full`}
             >
-              <div className="flex-1">
-                <div className="mb-2 text-sm font-semibold text-cyan-600">
+              <div className="flex-1 w-full">
+                <div className="mb-2 text-xs sm:text-sm font-semibold text-cyan-600">
                   {card.title}
                 </div>
-                <h2 className="mb-6 text-5xl font-bold text-gray-900">
+                <h2 className="mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
                   {card.heading}
                 </h2>
-                <p className="mb-8 text-base leading-relaxed text-gray-700">
+                <p className="mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed text-gray-700">
                   {card.description}
                 </p>
-                <ul className="mb-10 space-y-3">
+                <ul className="mb-6 sm:mb-8 md:mb-10 space-y-2 sm:space-y-3">
                   {card.features.map((feature, featureIndex) => (
                     <li
                       key={featureIndex}
-                      className="flex items-start text-base font-semibold text-gray-900"
+                      className="flex items-start text-sm sm:text-base font-semibold text-gray-900"
                     >
                       <span className="mr-3 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-900"></span>
                       {feature}
@@ -108,7 +108,7 @@ const SectionCards: React.FC = () => {
                 <Button className="text-black!">{card.buttonText}</Button>
               </div>
 
-              <div className="flex-1 h-full">
+              <div className="flex-1 w-full h-64 sm:h-80 md:h-full">
                 {card.media.type === "image" ? (
                   <img
                     src={card.media.src}
