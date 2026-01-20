@@ -20,7 +20,7 @@ function Button({
   return (
     <button
       onClick={onClick}
-      className={`group relative inline-flex items-center justify-center px-6 py-3 backdrop-blur-md border border-neutral-500/20 rounded-tr-3xl rounded-bl-3xl shadow-xs text-white transition-all duration-300 ${className}`}
+      className={`group relative inline-flex items-center justify-center px-6 py-3 backdrop-blur-sm border border-neutral-500/20 rounded-tr-3xl rounded-bl-3xl shadow-xs text-white transition-all duration-300 ${className}`}
     >
       {showArrow && arrowPosition === "left" && (
         <ArrowRight className="w-0 h-4 rotate-180 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:mr-2 transition-all duration-300" />

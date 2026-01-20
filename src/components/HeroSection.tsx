@@ -108,12 +108,12 @@ export default function HeroSection() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <h1 className="font-bold leading-tight sm:leading-snug tracking-tight text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+              <h1 className="font-bold leading-tight sm:leading-snug tracking-tight text-white text-4xl md:text-7xl">
                 {colorizeText(currentSlide.headline)} <br />
                 {colorizeText(currentSlide.headlineLine2)}
               </h1>
 
-              <p className="mt-3 sm:mt-4 text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-prose">
+              <p className="mt-3 sm:mt-4 text-white/90  text-base md:text-lg leading-relaxed max-w-prose">
                 {currentSlide.description}
               </p>
 
