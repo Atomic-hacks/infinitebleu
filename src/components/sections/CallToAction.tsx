@@ -44,7 +44,9 @@ const CallToAction: React.FC = () => {
               We have already built an extensive library of drivers, APIs, and
               upload methods to make data ingestion as smooth as possible.
             </p>
-            <Button className="">See our Full List of Integrations</Button>
+            <Button className="text-black!">
+              See our Full List of Integrations
+            </Button>
           </div>
 
           <div className="mb-12 sm:mb-16 md:mb-20 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-13 gap-3 sm:gap-4">
@@ -125,7 +127,7 @@ const CallToAction: React.FC = () => {
                 insights
               </p>
             </div>
-            <Button>Sign Up for the Newsletter</Button>
+            <Button className="text-black!">Sign Up for the Newsletter</Button>
           </div>
         </div>
       </div>

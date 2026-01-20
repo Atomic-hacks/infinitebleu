@@ -49,7 +49,9 @@ const SuccessStoriesSection: React.FC = () => {
             building managers save energy, reduce operating costs, optimize
             efficiency, and meet their sustainability goals.
           </p>
-          <Button>Explore Success Stories</Button>
+          <Button className="text-black!" showArrow>
+            Explore Success Stories
+          </Button>
         </div>
 
         {/* Success Story Cards */}
@@ -84,7 +86,9 @@ const SuccessStoriesSection: React.FC = () => {
                 <p className="mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed text-gray-700">
                   {story.description}
                 </p>
-                <Button>Learn more</Button>
+                <Button className="text-black!" showArrow>
+                  Learn more
+                </Button>
               </div>
             </div>
           ))}

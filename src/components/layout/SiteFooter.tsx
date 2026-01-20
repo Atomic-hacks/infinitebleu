@@ -41,7 +41,7 @@ const footerData = {
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative overflow-hidden bg-blue-300 px-4 sm:px-6 md:px-8 pb-0 pt-12 sm:pt-16 rounded-bl-[200px] sm:rounded-bl-[350px] md:rounded-bl-[500px] rounded-tr-[200px] sm:rounded-tr-[350px] md:rounded-tr-[500px]">
+    <footer className="relative overflow-hidden bg-blue-300 px-4 sm:px-6 md:px-8 pb-0 pt-12 sm:pt-16 rounded-bl-[200px] sm:rounded-bl-[350px] md:rounded-bl-[400px] rounded-tr-[200px] sm:rounded-tr-[350px] md:rounded-tr-[400px]">
       <button className="absolute right-4 sm:right-6 md:right-8 top-6 sm:top-8 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-lime-400 text-slate-800 transition-colors hover:bg-lime-300">
         <svg
           className="h-5 w-5 sm:h-6 sm:w-6"

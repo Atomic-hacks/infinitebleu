@@ -105,7 +105,7 @@ const SectionCards: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <Button className="text-black!">{card.buttonText}</Button>
+                <Button showArrow className="text-black!">{card.buttonText}</Button>
               </div>
 
               <div className="flex-1 w-full h-64 sm:h-80 md:h-full">

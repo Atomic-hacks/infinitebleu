@@ -1,63 +1,37 @@
 "use client";
-import { motion, useAnimation } from "framer-motion";
-import { useState } from "react";
+
+import { ArrowRight } from "lucide-react";
 
 interface ButtonProps {
   children: React.ReactNode;
-  direction?: "left" | "right";
-  roundedSide?: "left" | "right";
   className?: string;
   onClick?: () => void;
-  fillClassName?: string;
+  showArrow?: boolean;
+  arrowPosition?: "left" | "right";
 }
 
-export default function Button({
+function Button({
   children,
-  direction = "right",
-
   className = "",
   onClick,
-  fillClassName = "bg-blue-500",
+  showArrow = false,
+  arrowPosition = "right",
 }: ButtonProps) {
-  const [, setHovered] = useState(false);
-  const controls = useAnimation();
-
-  const originX = direction === "right" ? 0 : 1; // fill direction
-  const unfillOriginX = direction === "right" ? 1 : 0; // reverse when hover ends
-
-  const handleHoverStart = () => {
-    setHovered(true);
-    controls.start({
-      scaleX: 1,
-      transformOrigin: `${originX} center`,
-      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
-    });
-  };
-
-  const handleHoverEnd = () => {
-    setHovered(false);
-    controls.start({
-      scaleX: 0,
-      transformOrigin: `${unfillOriginX} center`,
-      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
-    });
-  };
-
   return (
     <button
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
       onClick={onClick}
-      className={`relative overflow-hidden inline-flex items-center text-black  hover:text-white justify-center px-6 py-2 bg-transparent transition-all duration-300 select-none rounded-tr-4xl ease-in-out  rounded-bl-4xl border border-neutral-400 ${className}`}
+      className={`group relative inline-flex items-center justify-center px-6 py-3 backdrop-blur-md border border-neutral-500/20 rounded-tr-3xl rounded-bl-3xl shadow-xs text-white transition-all duration-300 ${className}`}
     >
-      {/* Animated fill background */}
-      <motion.span
-        className={`absolute inset-0 ${fillClassName} z-0`}
-        initial={{ scaleX: 0, transformOrigin: `${originX} center` }}
-        animate={controls}
-      />
-      {/* Text layer */}
-      <span className="relative z-10">{children}</span>
+      {showArrow && arrowPosition === "left" && (
+        <ArrowRight className="w-0 h-4 rotate-180 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:mr-2 transition-all duration-300" />
+      )}
+
+      {children}
+
+      {showArrow && arrowPosition === "right" && (
+        <ArrowRight className="w-0 h-4 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:ml-2 transition-all duration-300" />
+      )}
     </button>
   );
 }
+export default Button;

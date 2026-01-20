@@ -29,6 +29,30 @@ const slides = [
   },
 ];
 
+// Function to randomly color words blue
+// Function to randomly color words blue
+const colorizeText = (text: string) => {
+  const words = text.split(" ");
+  const numBlueWords = Math.min(
+    Math.floor(Math.random() * 2) + 1,
+    words.length
+  );
+  const blueIndices = new Set<number>();
+
+  while (blueIndices.size < numBlueWords) {
+    blueIndices.add(Math.floor(Math.random() * words.length));
+  }
+
+  return words.map(
+    (word, idx): React.ReactNode => (
+      <span key={idx} className={blueIndices.has(idx) ? "text-blue-500" : ""}>
+        {word}
+        {idx < words.length - 1 ? " " : ""}
+      </span>
+    )
+  );
+};
+
 export default function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [, setMounted] = useState(false);
@@ -49,7 +73,7 @@ export default function HeroSection() {
   return (
     <section
       aria-label="InfinityBleu hero"
-      className="relative h-[70vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] rounded-lg sm:rounded-xl md:rounded-2xl w-full overflow-hidden"
+      className="relative h-screen w-full overflow-hidden"
     >
       {/* Background slider */}
       <div className="absolute inset-0">
@@ -71,10 +95,10 @@ export default function HeroSection() {
       </div>
 
       {/* Gradient overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/65 to-black/0" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 to-black/30" />
 
       {/* Content */}
-      <div className="relative z-10 h-full w-full flex items-center px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:pl-28 pr-4 sm:pr-6">
+      <div className="absolute z-10 max-w-2xl left-16 bottom-1/3 md:left-48 md:bottom-48 flex items-center ">
         <div className="max-w-xl lg:max-w-2xl text-left text-white">
           <AnimatePresence mode="wait">
             <motion.div
@@ -85,8 +109,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <h1 className="font-bold leading-tight sm:leading-snug tracking-tight text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
-                {currentSlide.headline} <br />
-                {currentSlide.headlineLine2}
+                {colorizeText(currentSlide.headline)} <br />
+                {colorizeText(currentSlide.headlineLine2)}
               </h1>
 
               <p className="mt-3 sm:mt-4 text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-prose">
@@ -94,7 +118,7 @@ export default function HeroSection() {
               </p>
 
               <div className="mt-4 sm:mt-6">
-                <Button direction="right">{currentSlide.primaryCta}</Button>
+                <Button showArrow>{currentSlide.primaryCta}</Button>
               </div>
             </motion.div>
           </AnimatePresence>

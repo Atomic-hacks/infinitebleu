@@ -60,7 +60,7 @@ const IntroSection: React.FC = () => {
           <h3 className="mb-8 sm:mb-12 text-base sm:text-lg font-medium text-gray-600">
             Trusted by clients and partners worldwide
           </h3>
-          <div className="mb-12 sm:mb-16 md:mb-20 grid grid-cols-4 sm:grid-cols-4 md:flex md:items-center md:justify-between gap-4 sm:gap-6 md:gap-8">
+          <div className="mb-12 sm:mb-16 md:mb-20 flex items-center justify-between gap-4 sm:gap-6 md:gap-8">
             {clientLogos.map((logo, index) => (
               <img
                 key={index}
