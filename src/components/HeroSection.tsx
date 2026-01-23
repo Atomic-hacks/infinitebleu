@@ -30,14 +30,13 @@ const slides = [
 ];
 
 // Function to randomly color words blue
-// Function to randomly color words blue
 const colorizeText = (text: string) => {
   const words = text.split(" ");
   const numBlueWords = Math.min(
     Math.floor(Math.random() * 2) + 1,
     words.length
   );
-  const blueIndices = new Set<number>();
+  const blueIndices = new Set();
 
   while (blueIndices.size < numBlueWords) {
     blueIndices.add(Math.floor(Math.random() * words.length));
@@ -71,89 +70,75 @@ export default function HeroSection() {
   const currentSlide = slides[activeIndex];
 
   return (
-    <section
-      aria-label="InfinityBleu hero"
-      className="relative h-screen w-full overflow-hidden"
-    >
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background slider */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence initial={false}>
-          <motion.img
+          <motion.div
             key={activeIndex}
-            src={currentSlide.image}
-            alt="Background visual"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{
-              duration: 1,
-              ease: [0.65, 0, 0.35, 1],
-            }}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0"
+          >
+            <img
+              src={currentSlide.image}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+          </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Gradient overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 to-black/30" />
-
       {/* Content */}
-      <div className="absolute z-10 max-w-2xl left-16 bottom-1/3 md:left-48 md:bottom-48 flex items-center ">
-        <div className="max-w-xl lg:max-w-2xl text-left text-white">
+      <div className="relative z-10 flex h-full items-center justify-center px-6 md:px-12 lg:px-20">
+        <div className="max-w-4xl text-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6 }}
             >
-              <h1 className="font-bold leading-tight sm:leading-snug tracking-tight text-white text-4xl md:text-7xl">
-                {colorizeText(currentSlide.headline)} <br />
+              <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
+                {colorizeText(currentSlide.headline)}
+                <br />
                 {colorizeText(currentSlide.headlineLine2)}
               </h1>
 
-              <p className="mt-3 sm:mt-4 text-white/90  text-base md:text-lg leading-relaxed max-w-prose">
+              <p className="mb-8 text-lg text-gray-200 md:text-xl lg:text-2xl">
                 {currentSlide.description}
               </p>
 
-              <div className="mt-4 sm:mt-6">
-                <Button showArrow>{currentSlide.primaryCta}</Button>
-              </div>
+              <Button showArrow className="border-neutral-600">
+                {currentSlide.primaryCta}
+              </Button>
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
       {/* Slide indicators */}
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              className="group relative cursor-pointer touch-manipulation"
-              aria-label={`Go to slide ${idx + 1}`}
-            >
-              <div className="h-0.5 w-8 sm:w-10 md:w-12 bg-white/20 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-white rounded-full"
-                  initial={{ width: "0%" }}
-                  animate={{
-                    width: idx === activeIndex ? "100%" : "0%",
-                  }}
-                  transition={{
-                    duration: idx === activeIndex ? 6 : 0.3,
-                    ease: idx === activeIndex ? "linear" : [0.65, 0, 0.35, 1],
-                  }}
-                />
-              </div>
-              <div className="absolute inset-0 -m-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-full h-full border border-white/30 rounded-full" />
-              </div>
-            </button>
-          ))}
-        </div>
+      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActiveIndex(idx)}
+            className="group relative cursor-pointer touch-manipulation"
+            aria-label={`Go to slide ${idx + 1}`}
+          >
+            <div
+              className={`h-1.5 w-12 rounded-full transition-all duration-300 ${
+                idx === activeIndex
+                  ? "bg-white"
+                  : "bg-white/40 group-hover:bg-white/60"
+              }`}
+            />
+          </button>
+        ))}
       </div>
     </section>
   );
