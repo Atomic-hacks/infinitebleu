@@ -266,7 +266,7 @@ const DropdownContent: React.FC<{
 }> = ({ data, isVisible }) => {
   return (
     <div
-      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 shadow-xl transition-all duration-300 ease-out ${
+      className={`fixed left-0 right-0 top-16 z-30 w-full bg-white border-b border-gray-200 shadow-xl transition-all duration-300 ease-out rounded-bl-full ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-4 pointer-events-none"
