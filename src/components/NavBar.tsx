@@ -502,7 +502,9 @@ export default function Navbar(): JSX.Element {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button className="hidden text-black! md:flex">Let's Talk</Button>
+              <Button className="hidden! text-black! md:flex!">
+                Let's Talk
+              </Button>
 
               <button
                 className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"

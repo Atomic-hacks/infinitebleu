@@ -60,7 +60,7 @@ const IntroSection: React.FC = () => {
           <h3 className="mb-8 sm:mb-12 text-base sm:text-lg font-medium text-gray-600">
             Trusted by clients and partners worldwide
           </h3>
-          <div className="mb-12 sm:mb-16 md:mb-20 flex items-center justify-between gap-4 ">
+          <div className="mb-12 sm:mb-16 md:mb-20 grid grid-cols-4 md:flex items-center justify-between gap-4 ">
             {clientLogos.map((logo, index) => (
               <div className="px-6 py-4 rounded-bl-3xl rounded-tr-3xl bg-blue-300 hover:scale-105 transition-all duration-300">
                 {" "}
