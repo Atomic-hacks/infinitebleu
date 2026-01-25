@@ -169,7 +169,7 @@ const IntroSection: React.FC = () => {
       </div>
 
       {/* Real-time Data Section */}
-      <section className="bg-slate-900 -mx-4 sm:-mx-6 md:-mx-8 py-16 sm:py-20 md:py-24 text-white overflow-hidden relative rounded-bl-4xl rounded-tr-4xl">
+      <section className="bg-slate-900 mx-4 sm:-mx-6 md:-mx-8 py-16 sm:py-20 md:py-24 text-white overflow-hidden relative rounded-bl-4xl rounded-tr-4xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="lg:w-1/2">
