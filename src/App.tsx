@@ -8,7 +8,7 @@ import SiteFooter from "./components/layout/SiteFooter";
 
 const App = () => {
   return (
-    <main className="relative w-full max-w-[1920] mx-auto px-4">
+    <main className="relative w-full max-w-[1920] mx-auto ">
       <HeroSection />
       <IntroSection />
       <AlternatingBlocks />
